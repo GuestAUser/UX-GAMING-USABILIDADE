@@ -1,0 +1,43 @@
+GuestAUser Non-Commercial Attribution License v1.0  (GNAL-1.0)
+----------------------------------------------------------------
+Copyright © 2025 GuestAUser  <https://github.com/GuestAUser>
+
+1.  DEFINITIONS
+    “Project” means all files in this repository, including source code,
+    documentation, and assets, unless expressly excluded in writing.  
+    “You” (or “Your”) means any individual or entity exercising the
+    rights granted in Section 2.  
+    “Commercial Use” means any use, distribution, or deployment
+    intended for or directed toward commercial advantage, monetary
+    compensation, or financial gain.
+
+2.  LICENSE GRANT
+    Subject to the conditions in Section 3, GuestAUser grants You a
+    worldwide, royalty-free, non-exclusive, revocable license to:
+       a. use and run the Project for non-commercial purposes;  
+       b. create and maintain non-commercial derivative works;  
+       c. share unmodified or modified copies of the Project, provided
+          all copies include this license in its entirety.
+
+3.  CONDITIONS
+    3.1  **Attribution Required**  
+         Any public use, display, distribution, or derivative work must
+         prominently credit “GuestAUser” and link to the original
+         repository URL.
+
+    3.2  **Non-Commercial Only**  
+         Commercial Use is **strictly prohibited** without the prior, 
+         written permission of GuestAUser.
+
+    3.3  **No Uncredited Code Extraction**  
+         You may not extract, copy, or reuse any portion of the code
+         base outside this Project **unless attribution in Section 3.1 is
+         satisfied**. Extraction for commercial purposes is forbidden
+         per Section 3.2.
+
+    3.4  **Same-License Redistribution**  
+         Any redistribution—modified or unmodified—must retain this
+         exact license text and comply with all its terms.
+
+4.  EXCEPTIONS & COMMERCIAL LICENSE
+    To obtain rights for Commercial Use,

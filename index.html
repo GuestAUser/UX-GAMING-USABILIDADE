@@ -1896,7 +1896,6 @@ footer p{
 <div aria-label="Voltar ao topo" class="scroll-top">↑</div>
 
 <script>
-// Observador de interseção para animar seções ao entrar na viewport
 const sections = document.querySelectorAll('section');
 const options = {
   threshold: 0.1,
@@ -1921,29 +1920,25 @@ const navLinks = document.querySelector('.nav-links');
 const menuBackdrop = document.querySelector('.menu-backdrop');
 const navItems = document.querySelectorAll('.nav-links li a');
 
-// Função para abrir o menu
 function openMobileMenu() {
   hamburger.classList.add('active');
   navLinks.classList.add('active');
   menuBackdrop.classList.add('active');
   document.body.classList.add('menu-open');
-  document.body.style.overflow = 'hidden'; // Previne rolagem do fundo
+  document.body.style.overflow = 'hidden';
 }
 
-// Função para fechar o menu
 function closeMobileMenu() {
   hamburger.classList.remove('active');
   navLinks.classList.remove('active');
   menuBackdrop.classList.remove('active');
   document.body.classList.remove('menu-open');
-  document.body.style.overflow = ''; // Restaura a rolagem
+  document.body.style.overflow = '';
 }
-
-// Toggle menu com feedback tátil
-hamburger.addEventListener('click', (e) => {
-  e.preventDefault(); // Previne comportamento padrão
   
-  // Efeito tátil no botão
+hamburger.addEventListener('click', (e) => {
+  e.preventDefault();
+  
   hamburger.style.transform = 'scale(0.95)';
   setTimeout(() => {
     hamburger.style.transform = '';
@@ -1956,29 +1951,21 @@ hamburger.addEventListener('click', (e) => {
   }
 });
 
-// Fecha menu ao clicar no backdrop
 menuBackdrop.addEventListener('click', closeMobileMenu);
-
-// Fecha menu ao clicar em um item de navegação
 navItems.forEach(item => {
   item.addEventListener('click', (e) => {
-    // Destaca visualmente o item clicado
     navItems.forEach(navItem => navItem.classList.remove('clicked'));
     item.classList.add('clicked');
-    
-    // Fecha o menu com um pequeno atraso para mostrar o efeito do clique
     setTimeout(closeMobileMenu, 150);
   });
 });
 
-// Fecha o menu ao pressionar a tecla ESC
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && navLinks.classList.contains('active')) {
     closeMobileMenu();
   }
 });
 
-// Highlight active nav item based on scroll position
 const navLinks2 = document.querySelectorAll('.nav-links a');
 const navSections = document.querySelectorAll('section');
 
@@ -2001,7 +1988,6 @@ function highlightNavOnScroll() {
   });
 }
 
-// Nav appearance change on scroll
 const nav = document.querySelector('nav');
 
 function updateNavOnScroll() {
@@ -2012,7 +1998,6 @@ function updateNavOnScroll() {
   }
 }
 
-// Back to top button
 const scrollTopBtn = document.querySelector('.scroll-top');
 
 function toggleScrollTopButton() {
@@ -2030,7 +2015,6 @@ scrollTopBtn.addEventListener('click', () => {
   });
 });
 
-// Smooth scroll para links de âncora com efeitos aprimorados
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function(e) {
     e.preventDefault();
@@ -2040,31 +2024,26 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     
     const targetElement = document.querySelector(targetId);
     if (targetElement) {
-      // Destacar visualmente o link clicado
       document.querySelectorAll('a[href^="#"]').forEach(a => {
         a.classList.remove('active');
       });
       this.classList.add('active');
       
-      // Calcular a posição com offset para o cabeçalho
       const headerOffset = 70;
       const elementPosition = targetElement.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
       
-      // Rolagem suave
       window.scrollTo({
         top: offsetPosition,
         behavior: 'smooth'
       });
       
-      // Destacar brevemente a seção de destino
       targetElement.style.transition = 'outline 0.1s ease-in-out';
       targetElement.style.outline = '2px solid var(--primary)';
       
       setTimeout(() => {
         targetElement.style.outline = 'none';
         
-        // Adicionar destaque ao título da seção
         const sectionTitle = targetElement.querySelector('h2');
         if (sectionTitle) {
           sectionTitle.style.transition = 'transform 0.3s ease';
@@ -2079,7 +2058,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 
-// Interactive card hover effects
 const allCards = document.querySelectorAll('.card');
 allCards.forEach(card => {
   const icon = card.querySelector('.card-icon');
@@ -2094,7 +2072,6 @@ allCards.forEach(card => {
   }
 });
 
-// Add touch device detection
 function isTouchDevice() {
   return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 }
@@ -2103,7 +2080,6 @@ if (isTouchDevice()) {
   document.body.classList.add('touch-device');
 }
 
-// Debounce function for scroll event optimization
 function debounce(func, wait = 20, immediate = true) {
   let timeout;
   return function() {
@@ -2119,29 +2095,23 @@ function debounce(func, wait = 20, immediate = true) {
   };
 }
 
-// Event listeners
 window.addEventListener('scroll', debounce(function() {
   highlightNavOnScroll();
   updateNavOnScroll();
   toggleScrollTopButton();
 }, 10));
 
-// Adicionar efeitos nas seções quando elas entram no viewport
 function addSectionAnimations() {
   const sections = document.querySelectorAll('section');
   sections.forEach((section, index) => {
-    // Adicionar classe com atraso baseado no índice para criar efeito cascata
     setTimeout(() => {
       section.classList.add('animate-in');
-      
-      // Animar os cards dentro da seção
+
       const cards = section.querySelectorAll('.card');
       cards.forEach((card, cardIndex) => {
         setTimeout(() => {
           card.style.transform = 'translateY(0)';
           card.style.opacity = '1';
-          
-          // Animar o ícone do card
           const icon = card.querySelector('.card-icon');
           if (icon) {
             icon.classList.add('animated');
@@ -2155,20 +2125,13 @@ function addSectionAnimations() {
   });
 }
 
-// Initialize com efeitos aprimorados
 function init() {
   updateNavOnScroll();
   toggleScrollTopButton();
-  
-  // Trigger initial highlight based on scroll position
   highlightNavOnScroll();
-  
-  // Adicionar efeitos de carregamento da página
   setTimeout(() => {
     document.body.classList.add('page-loaded');
     addSectionAnimations();
-    
-    // Destaque inicial no menu para a seção atual
     const currentSection = document.querySelector('section');
     if (currentSection) {
       const sectionId = currentSection.getAttribute('id');
@@ -2177,8 +2140,6 @@ function init() {
         correspondingLink.classList.add('active');
       }
     }
-    
-    // Efeito no botão de voltar ao topo
     const scrollTopBtn = document.querySelector('.scroll-top');
     if (scrollTopBtn) {
       setTimeout(() => {
@@ -2191,19 +2152,16 @@ function init() {
   }, 300);
 }
 
-// Run initialization when DOM is fully loaded
 document.addEventListener('DOMContentLoaded', init);
 
-// Add CSS variable for window height to handle mobile viewport issues
 function updateCSSViewportHeight() {
   let vh = window.innerHeight * 0.01;
   document.documentElement.style.setProperty('--vh', `${vh}px`);
 }
 
-// Update on resize
 window.addEventListener('resize', debounce(function() {
   updateCSSViewportHeight();
 }, 100));
 
-// Initial call
 updateCSSViewportHeight();
+</script>

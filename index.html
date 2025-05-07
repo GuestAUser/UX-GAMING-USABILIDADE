@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="Guia completo de Usabilidade, UX e Gamificação: fundamentos, princípios e técnicas para experiências digitais envolventes.">
 <meta name="theme-color" content="#1e3a8a">
-<title>Guia de Usabilidade, UX e Gamificação</title>
+<title>Guia Premium de Usabilidade, UX e Gamificação</title>
 <style>
 :root{
   /* Cores base */
@@ -264,7 +264,7 @@ header .subtitle{
   opacity: 1; /* Alteração: garantir que o subtítulo seja visível */
 }
 
-/* Navegação */
+/* Navegação - aprimorada com efeitos */
 nav{
   position: sticky;
   top: 0;
@@ -281,6 +281,34 @@ nav.scrolled {
   backdrop-filter: blur(8px);
   background: rgba(var(--background-elevated-rgb), 0.8);
   height: calc(var(--header-h) - 10px);
+}
+
+/* Efeito de destaque para item ativo no menu móvel */
+.nav-links li a.clicked {
+  background-color: var(--primary-100);
+  color: var(--primary);
+  transform: scale(1.05);
+  transition: all 0.2s ease;
+}
+
+@media (max-width: 768px) {
+  .nav-links a {
+    width: 80%;
+    text-align: center;
+    margin: 0.5rem 0;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius);
+    transition: all 0.3s ease;
+  }
+  
+  .nav-links a:active {
+    transform: scale(0.95);
+  }
+  
+  .nav-links a.active {
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+  }
 }
 
 .nav-container{
@@ -689,7 +717,7 @@ footer p{
   padding: 0 var(--content-padding-x);
 }
 
-/* Botão voltar ao topo */
+/* Botão voltar ao topo - aprimorado com pulsação */
 .scroll-top{
   position: fixed;
   bottom: 2rem;
@@ -715,11 +743,28 @@ footer p{
 .scroll-top.visible{
   opacity: 1;
   transform: translateY(0) scale(1);
+  animation: pulseButton 2s infinite;
 }
 
 .scroll-top:hover{
   background: var(--primary-hover);
   transform: translateY(-5px) scale(1.1);
+  animation: none;
+}
+
+.scroll-top:active {
+  transform: scale(0.9);
+}
+
+@keyframes pulseButton {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(var(--primary-rgb), 0.5); }
+  70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(var(--primary-rgb), 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(var(--primary-rgb), 0); }
+}
+
+/* Variável RGB para o botão de volta ao topo */
+:root {
+  --primary-rgb: 65, 105, 225;
 }
 
 /* Animações gerais */
@@ -1090,13 +1135,47 @@ footer p{
   backdrop-filter: blur(4px);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.4s ease;
   z-index: 90;
+  transform: translateZ(0); /* Melhora o desempenho em dispositivos móveis */
 }
 
 .menu-backdrop.active {
   opacity: 1;
   pointer-events: auto;
+}
+
+/* Adicionar efeito de pulso nos ícones ao carregar a página */
+@keyframes initialPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+.page-loaded .card-icon {
+  animation: initialPulse 1.5s var(--animation-bounce);
+}
+
+/* Efeitos de transição para cards */
+.card {
+  transition: transform 0.4s var(--animation-bounce), 
+              box-shadow 0.4s ease,
+              background-color 0.3s ease;
+}
+
+.card:hover {
+  background-color: var(--background-muted);
+}
+
+/* Efeito de destaque para o item ativo no menu */
+.nav-links a.active {
+  font-weight: var(--font-weight-semibold);
+  transform: translateY(-2px);
+}
+
+/* Efeito para botões com feedback tátil */
+.btn:active {
+  transform: scale(0.96);
 }
 
 /* Animação do ícone do menu */
@@ -1836,36 +1915,67 @@ sections.forEach(section => {
   observer.observe(section);
 });
 
-// Menu mobile
+// Menu mobile aprimorado
 const hamburger = document.querySelector('.hamburger');
 const navLinks = document.querySelector('.nav-links');
 const menuBackdrop = document.querySelector('.menu-backdrop');
 const navItems = document.querySelectorAll('.nav-links li a');
 
-// Toggle menu
-hamburger.addEventListener('click', () => {
-  hamburger.classList.toggle('active');
-  navLinks.classList.toggle('active');
-  menuBackdrop.classList.toggle('active');
-  document.body.classList.toggle('menu-open');
-});
+// Função para abrir o menu
+function openMobileMenu() {
+  hamburger.classList.add('active');
+  navLinks.classList.add('active');
+  menuBackdrop.classList.add('active');
+  document.body.classList.add('menu-open');
+  document.body.style.overflow = 'hidden'; // Previne rolagem do fundo
+}
 
-// Close menu on backdrop click
-menuBackdrop.addEventListener('click', () => {
+// Função para fechar o menu
+function closeMobileMenu() {
   hamburger.classList.remove('active');
   navLinks.classList.remove('active');
   menuBackdrop.classList.remove('active');
   document.body.classList.remove('menu-open');
+  document.body.style.overflow = ''; // Restaura a rolagem
+}
+
+// Toggle menu com feedback tátil
+hamburger.addEventListener('click', (e) => {
+  e.preventDefault(); // Previne comportamento padrão
+  
+  // Efeito tátil no botão
+  hamburger.style.transform = 'scale(0.95)';
+  setTimeout(() => {
+    hamburger.style.transform = '';
+  }, 100);
+  
+  if (navLinks.classList.contains('active')) {
+    closeMobileMenu();
+  } else {
+    openMobileMenu();
+  }
 });
 
-// Close menu when a navigation item is clicked
+// Fecha menu ao clicar no backdrop
+menuBackdrop.addEventListener('click', closeMobileMenu);
+
+// Fecha menu ao clicar em um item de navegação
 navItems.forEach(item => {
-  item.addEventListener('click', () => {
-    hamburger.classList.remove('active');
-    navLinks.classList.remove('active');
-    menuBackdrop.classList.remove('active');
-    document.body.classList.remove('menu-open');
+  item.addEventListener('click', (e) => {
+    // Destaca visualmente o item clicado
+    navItems.forEach(navItem => navItem.classList.remove('clicked'));
+    item.classList.add('clicked');
+    
+    // Fecha o menu com um pequeno atraso para mostrar o efeito do clique
+    setTimeout(closeMobileMenu, 150);
   });
+});
+
+// Fecha o menu ao pressionar a tecla ESC
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && navLinks.classList.contains('active')) {
+    closeMobileMenu();
+  }
 });
 
 // Highlight active nav item based on scroll position
@@ -1920,7 +2030,7 @@ scrollTopBtn.addEventListener('click', () => {
   });
 });
 
-// Smooth scroll for anchor links
+// Smooth scroll para links de âncora com efeitos aprimorados
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function(e) {
     e.preventDefault();
@@ -1930,14 +2040,41 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     
     const targetElement = document.querySelector(targetId);
     if (targetElement) {
+      // Destacar visualmente o link clicado
+      document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.classList.remove('active');
+      });
+      this.classList.add('active');
+      
+      // Calcular a posição com offset para o cabeçalho
       const headerOffset = 70;
       const elementPosition = targetElement.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
       
+      // Rolagem suave
       window.scrollTo({
         top: offsetPosition,
         behavior: 'smooth'
       });
+      
+      // Destacar brevemente a seção de destino
+      targetElement.style.transition = 'outline 0.1s ease-in-out';
+      targetElement.style.outline = '2px solid var(--primary)';
+      
+      setTimeout(() => {
+        targetElement.style.outline = 'none';
+        
+        // Adicionar destaque ao título da seção
+        const sectionTitle = targetElement.querySelector('h2');
+        if (sectionTitle) {
+          sectionTitle.style.transition = 'transform 0.3s ease';
+          sectionTitle.style.transform = 'scale(1.03)';
+          
+          setTimeout(() => {
+            sectionTitle.style.transform = '';
+          }, 500);
+        }
+      }, 800);
     }
   });
 });
@@ -1989,7 +2126,36 @@ window.addEventListener('scroll', debounce(function() {
   toggleScrollTopButton();
 }, 10));
 
-// Initialize
+// Adicionar efeitos nas seções quando elas entram no viewport
+function addSectionAnimations() {
+  const sections = document.querySelectorAll('section');
+  sections.forEach((section, index) => {
+    // Adicionar classe com atraso baseado no índice para criar efeito cascata
+    setTimeout(() => {
+      section.classList.add('animate-in');
+      
+      // Animar os cards dentro da seção
+      const cards = section.querySelectorAll('.card');
+      cards.forEach((card, cardIndex) => {
+        setTimeout(() => {
+          card.style.transform = 'translateY(0)';
+          card.style.opacity = '1';
+          
+          // Animar o ícone do card
+          const icon = card.querySelector('.card-icon');
+          if (icon) {
+            icon.classList.add('animated');
+            setTimeout(() => {
+              icon.classList.remove('animated');
+            }, 800);
+          }
+        }, cardIndex * 100);
+      });
+    }, index * 150);
+  });
+}
+
+// Initialize com efeitos aprimorados
 function init() {
   updateNavOnScroll();
   toggleScrollTopButton();
@@ -1997,10 +2163,32 @@ function init() {
   // Trigger initial highlight based on scroll position
   highlightNavOnScroll();
   
-  // Add class to body when page is loaded
+  // Adicionar efeitos de carregamento da página
   setTimeout(() => {
     document.body.classList.add('page-loaded');
-  }, 100);
+    addSectionAnimations();
+    
+    // Destaque inicial no menu para a seção atual
+    const currentSection = document.querySelector('section');
+    if (currentSection) {
+      const sectionId = currentSection.getAttribute('id');
+      const correspondingLink = document.querySelector(`.nav-links a[href="#${sectionId}"]`);
+      if (correspondingLink) {
+        correspondingLink.classList.add('active');
+      }
+    }
+    
+    // Efeito no botão de voltar ao topo
+    const scrollTopBtn = document.querySelector('.scroll-top');
+    if (scrollTopBtn) {
+      setTimeout(() => {
+        scrollTopBtn.classList.add('visible');
+        setTimeout(() => {
+          scrollTopBtn.classList.remove('visible');
+        }, 2000);
+      }, 1500);
+    }
+  }, 300);
 }
 
 // Run initialization when DOM is fully loaded
